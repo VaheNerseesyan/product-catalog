@@ -1,6 +1,6 @@
 import style from './Basket.module.css';
 
-function Basket({ id, title, category, price, image, count, countIncrement, countDecrement}) {
+function Basket({ id, title, category, price, image, count, countIncrement, countDecrement, deleteProd}) {
 
     return (
         <div>
@@ -14,6 +14,7 @@ function Basket({ id, title, category, price, image, count, countIncrement, coun
                     <h4>{count}</h4>
                     <button onClick={() => countIncrement(id)}>+</button>
                 </div>
+                <button onClick={() => deleteProd(id)}>Delete</button>
             </div>
         </div>
     )

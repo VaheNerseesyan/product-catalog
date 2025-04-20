@@ -64,6 +64,12 @@ function ProductList() {
         }, 0))
     }, [boughtProducts])
 
+    const deleteProd = (id) => {
+        setBoughtProducts(prevProds => 
+            prevProds.filter(prod => prod.id !== id)
+        )
+    }
+
     return (
         <div>
             <button onClick={basketToggle}>Basket</button>
@@ -86,6 +92,7 @@ function ProductList() {
                                     {...prod}
                                     countIncrement={countIncrement}
                                     countDecrement={countDecrement}
+                                    deleteProd={deleteProd}
                                 />
                             ))}
                         </div>
