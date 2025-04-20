@@ -99,7 +99,7 @@ function ProductList() {
                     <>
                         <p>Total Price: {totalPrice.toFixed(2)}</p>
                         <div className={style.basketGrid}>
-                            {boughtProducts.map(prod => (
+                            {boughtProducts.length === 0 ? <p>Empty</p> : boughtProducts.map(prod => (
                                 <Basket
                                     key={prod.id}
                                     {...prod}
