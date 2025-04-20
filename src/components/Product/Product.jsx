@@ -9,7 +9,7 @@ function Product({ id, image, price, title, category, giveToBasket }) {
             <h4>{category}</h4>
             <h4>{price}</h4>
             <img src={image} alt="" />
-            <button onClick={() => giveToBasket(id)}>Add to Busket</button>
+            <button onClick={() => giveToBasket({ id, image, price, title, category})}>Add to Busket</button>
         </div>
     )
 }

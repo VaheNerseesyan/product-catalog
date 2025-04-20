@@ -4,24 +4,40 @@ import Product from "../Product/Product";
 import style from './ProductList.module.css'
 import Basket from "../Basket/Basket";
 
-// const ACTIONS = {
-//     GIVE_TO_BUSKET: 'give_to_basket',
-// }
+const actions = {
+    ADD_TO_BASKET: 'add_to_busket',
+    COUNT_INCREMENT: 'count_increment',
+    COUNT_DECREMENT: 'count_decrement',
+    DELETE_PROD: 'delete_prod',
+}
 
-// const reducer = ({ state, action }) => {
-//     const { type, payload } = action
-//     switch (type) {
-//         case ACTIONS.GIVE_TO_BUSKET: {
-
-//         }
-//     }
-// }
+const reducer = (state, action) => {
+    const { type, payload } = action
+    switch (type) {
+        case actions.ADD_TO_BASKET: {
+            const isExist = state.find(prod => prod.id === payload.id)
+            if (isExist) {
+                return state.map(prod => prod.id === payload.id ? { ...prod, count: prod.count + 1 } : prod)
+            } else {
+                return [...state, { ...payload, count: 1 }]
+            }
+        }
+        case actions.COUNT_INCREMENT: {
+            return state.map(prod => prod.id === payload ? { ...prod, count: prod.count + 1 } : prod)
+        }
+        case actions.COUNT_DECREMENT: {
+            return state.map(prod => prod.id === payload && prod.count > 1 ? { ...prod, count: prod.count - 1 } : prod)
+        }
+        case actions.DELETE_PROD: {
+            return state.filter(prod => prod.id !== payload)
+        }
+    }
+}
 
 function ProductList() {
-    // const [prductList, dispatch] = useReducer(reducer, products)
+    const [basket, dispatch] = useReducer(reducer, JSON.parse(localStorage.getItem("BASKET_PRODUCTS") ?? []))
     const [products, setProducts] = useState([])
     const [isBasketMode, setIsBaksetMode] = useState(false)
-    const [boughtProducts, setBoughtProducts] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
 
     useEffect(() => {
@@ -32,56 +48,34 @@ function ProductList() {
         setIsBaksetMode(!isBasketMode)
     }
 
-    const giveToBasket = (id) => {
-        const product = products.find(p => p.id === id);
-
-        setBoughtProducts(prevProds => {
-            const isExist = prevProds.some(p => p.id === id)
-            if (isExist) {
-                return prevProds.map(prod => prod.id === id ? { ...prod, count: prod.count + 1 } : prod)
-            } else {
-                return [...prevProds, { ...product, count: 1 }]
-            }
-        });
-    };
+    const giveToBasket = (product) => {
+        dispatch({ type: actions.ADD_TO_BASKET, payload: { ...product } })
+    }
 
     const countIncrement = (id) => {
-        setBoughtProducts(prevProds =>
-            prevProds.map(prod => prod.id === id ? { ...prod, count: prod.count + 1 } : prod)
-        )
+        dispatch({ type: actions.COUNT_INCREMENT, payload: id })
     }
 
     const countDecrement = (id) => {
-        setBoughtProducts(prevProds =>
-            prevProds.map(prod => (prod.id === id) && prod.count > 1 ? { ...prod, count: prod.count - 1 } : prod)
-        )
+        dispatch({ type: actions.COUNT_DECREMENT, payload: id })
     }
 
     useEffect(() => {
-        setTotalPrice(boughtProducts.reduce((curr, prod) => {
+        setTotalPrice(basket.reduce((curr, prod) => {
             curr += prod.count * prod.price
             return curr
         }, 0))
-    }, [boughtProducts])
+    }, [basket])
 
     const deleteProd = (id) => {
-        setBoughtProducts(prevProds => 
-            prevProds.filter(prod => prod.id !== id)
-        )
+        dispatch({ type: actions.DELETE_PROD, payload: id })
     }
 
     useEffect(() => {
-        const data = localStorage.getItem("BASKET_PRODUCTS")
-        if (data) {
-            setBoughtProducts(JSON.parse(data))
+        if (basket.length > 0) {
+            localStorage.setItem("BASKET_PRODUCTS", JSON.stringify(basket))
         }
-    }, [])
-
-    useEffect(() => {
-        if (boughtProducts.length > 0) {
-            localStorage.setItem("BASKET_PRODUCTS", JSON.stringify(boughtProducts))
-        }
-    }, [boughtProducts])
+    }, [basket])
 
     return (
         <div>
@@ -98,16 +92,20 @@ function ProductList() {
                 ) : (
                     <>
                         <p>Total Price: {totalPrice.toFixed(2)}</p>
-                        <div className={style.basketGrid}>
-                            {boughtProducts.length === 0 ? <p>Empty</p> : boughtProducts.map(prod => (
-                                <Basket
-                                    key={prod.id}
-                                    {...prod}
-                                    countIncrement={countIncrement}
-                                    countDecrement={countDecrement}
-                                    deleteProd={deleteProd}
-                                />
-                            ))}
+                        <div className={style.basketContainer}>
+                            {basket.length === 0 ? (
+                                <div className={style.emptyBasket}>Your basket is empty</div>
+                            ) : (
+                                basket.map(prod => (
+                                    <Basket
+                                        key={prod.id}
+                                        {...prod}
+                                        countIncrement={countIncrement}
+                                        countDecrement={countDecrement}
+                                        deleteProd={deleteProd}
+                                    />
+                                ))
+                            )}
                         </div>
                     </>
                 )}

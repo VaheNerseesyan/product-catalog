@@ -1,78 +1,141 @@
-.basket {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    margin: 16px;
-    width: 250px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    background-color: white;
-}
-
-.basketGrid {
+.basketContainer {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    padding: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    padding: 24px;
     max-width: 1400px;
     margin: 0 auto;
 }
 
-.basket:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.basket {
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
+    padding: 24px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensure equal height */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Keep all existing .basket styles... */
+/* [Previous .basket styles remain unchanged] */
+
+/* Add responsive adjustments */
+@media (max-width: 1200px) {
+    .basketContainer {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .basketContainer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .basketContainer {
+        grid-template-columns: 1fr;
+    }
+}
+
+.basket::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #ff9a9e 0%, #fad0c4 100%);
 }
 
 .basket h4 {
     margin: 8px 0;
-    color: #333;
+    color: #2d3436;
 }
 
-.basket h4:first-child {
+.basket h4:nth-child(1) {
     font-size: 18px;
-    font-weight: bold;
-    color: #222;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .basket h4:nth-child(2) {
-    color: #666;
     font-size: 14px;
+    color: #636e72;
     text-transform: capitalize;
 }
 
 .basket h4:nth-child(3) {
-    color: #2a6496;
-    font-weight: bold;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #e17055;
 }
 
 .basket img {
     width: 100%;
-    height: 200px;
+    height: 160px;
     object-fit: contain;
-    margin-top: 12px;
-    background-color: #f9f9f9;
-    border-radius: 4px;
+    margin: 12px 0;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px;
 }
 
 .basketButtons {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 10px;
+    justify-content: center;
+    gap: 16px;
+    margin: 16px 0;
 }
 
 .basketButtons button {
-    padding: 6px 12px;
-    font-size: 16px;
-    cursor: pointer;
+    width: 40px;
+    height: 40px;
     border: none;
-    background-color: #2a6496;
-    color: white;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
+    border-radius: 50%;
+    background-color: #f5f6fa;
+    color: #2d3436;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .basketButtons button:hover {
-    background-color: #1e4d78;
+    background-color: #dfe6e9;
+}
+
+.basketButtons h4 {
+    min-width: 30px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.deleteButton {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: auto;
+}
+
+.deleteButton:hover {
+    background: linear-gradient(135deg, #ff5252 0%, #ff7675 100%);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
 }

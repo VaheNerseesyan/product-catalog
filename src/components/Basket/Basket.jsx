@@ -14,7 +14,7 @@ function Basket({ id, title, category, price, image, count, countIncrement, coun
                     <h4>{count}</h4>
                     <button onClick={() => countIncrement(id)}>+</button>
                 </div>
-                <button onClick={() => deleteProd(id)}>Delete</button>
+                <button className={style.deleteButton} onClick={() => deleteProd(id)}>Delete</button>
             </div>
         </div>
     )
