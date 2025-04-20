@@ -18,8 +18,8 @@ import Basket from "../Basket/Basket";
 // }
 
 function ProductList() {
-    const [products, setProducts] = useState([])
     // const [prductList, dispatch] = useReducer(reducer, products)
+    const [products, setProducts] = useState([])
     const [isBasketMode, setIsBaksetMode] = useState(false)
     const [boughtProducts, setBoughtProducts] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
@@ -69,6 +69,19 @@ function ProductList() {
             prevProds.filter(prod => prod.id !== id)
         )
     }
+
+    useEffect(() => {
+        const data = localStorage.getItem("BASKET_PRODUCTS")
+        if (data) {
+            setBoughtProducts(JSON.parse(data))
+        }
+    }, [])
+
+    useEffect(() => {
+        if (boughtProducts.length > 0) {
+            localStorage.setItem("BASKET_PRODUCTS", JSON.stringify(boughtProducts))
+        }
+    }, [boughtProducts])
 
     return (
         <div>
