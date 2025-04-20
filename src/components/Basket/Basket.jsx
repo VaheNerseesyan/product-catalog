@@ -1,16 +1,19 @@
+import style from './Basket.module.css';
 
-
-function Basket({ }) {
+function Basket({ id, title, category, price, image, count, countIncrement, countDecrement}) {
 
     return (
         <div>
-            <p>Total Price{ }</p>
-            <div key={id}>
+            <div className={style.basket} key={id}>
                 <h4>{title}</h4>
                 <h4>{category}</h4>
                 <h4>{price}</h4>
                 <img src={image} alt="" />
-                
+                <div className={style.basketButtons}>
+                    <button onClick={() => countDecrement(id)}>-</button>
+                    <h4>{count}</h4>
+                    <button onClick={() => countIncrement(id)}>+</button>
+                </div>
             </div>
         </div>
     )

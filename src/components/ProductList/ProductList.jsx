@@ -2,22 +2,27 @@ import { use, useEffect, useReducer, useState } from "react";
 import productAPI from "../../api/api";
 import Product from "../Product/Product";
 import style from './ProductList.module.css'
+import Basket from "../Basket/Basket";
 
-const ACTIONS = {
+// const ACTIONS = {
+//     GIVE_TO_BUSKET: 'give_to_basket',
+// }
 
-}
+// const reducer = ({ state, action }) => {
+//     const { type, payload } = action
+//     switch (type) {
+//         case ACTIONS.GIVE_TO_BUSKET: {
 
-const reducer = ({ state, action }) => {
-    const { type, payload } = action
-    switch (type) {
-
-    }
-}
+//         }
+//     }
+// }
 
 function ProductList() {
     const [products, setProducts] = useState([])
-    const [prductList, dispatch] = useReducer(reducer, products)
+    // const [prductList, dispatch] = useReducer(reducer, products)
     const [isBasketMode, setIsBaksetMode] = useState(false)
+    const [boughtProducts, setBoughtProducts] = useState([])
+    const [totalPrice, setTotalPrice] = useState(0)
 
     useEffect(() => {
         productAPI().then(res => setProducts(res))
@@ -27,24 +32,67 @@ function ProductList() {
         setIsBaksetMode(!isBasketMode)
     }
 
+    const giveToBasket = (id) => {
+        const product = products.find(p => p.id === id);
+
+        setBoughtProducts(prevProds => {
+            const isExist = prevProds.some(p => p.id === id)
+            if (isExist) {
+                return prevProds.map(prod => prod.id === id ? { ...prod, count: prod.count + 1 } : prod)
+            } else {
+                return [...prevProds, { ...product, count: 1 }]
+            }
+        });
+    };
+
+    const countIncrement = (id) => {
+        setBoughtProducts(prevProds =>
+            prevProds.map(prod => prod.id === id ? { ...prod, count: prod.count + 1 } : prod)
+        )
+    }
+
+    const countDecrement = (id) => {
+        setBoughtProducts(prevProds =>
+            prevProds.map(prod => (prod.id === id) && prod.count > 1 ? { ...prod, count: prod.count - 1 } : prod)
+        )
+    }
+
+    useEffect(() => {
+        setTotalPrice(boughtProducts.reduce((curr, prod) => {
+            curr += prod.count * prod.price
+            return curr
+        }, 0))
+    }, [boughtProducts])
+
     return (
         <div>
-            <h4>0</h4>
             <button onClick={basketToggle}>Basket</button>
             <div className={style.productGrid}>
                 {!isBasketMode ? (
                     products.map(product => (
                         <Product
+                            key={product.id}
                             {...product}
+                            giveToBasket={giveToBasket}
                         />
                     ))
                 ) : (
-                    boughtProducts
+                    <>
+                        <p>Total Price: {totalPrice.toFixed(2)}</p>
+                        <div className={style.basketGrid}>
+                            {boughtProducts.map(prod => (
+                                <Basket
+                                    key={prod.id}
+                                    {...prod}
+                                    countIncrement={countIncrement}
+                                    countDecrement={countDecrement}
+                                />
+                            ))}
+                        </div>
+                    </>
                 )}
-                
             </div>
         </div>
-
     )
 }
 

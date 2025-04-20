@@ -1,0 +1,78 @@
+.basket {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px;
+    width: 250px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: white;
+}
+
+.basketGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.basket:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.basket h4 {
+    margin: 8px 0;
+    color: #333;
+}
+
+.basket h4:first-child {
+    font-size: 18px;
+    font-weight: bold;
+    color: #222;
+}
+
+.basket h4:nth-child(2) {
+    color: #666;
+    font-size: 14px;
+    text-transform: capitalize;
+}
+
+.basket h4:nth-child(3) {
+    color: #2a6496;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.basket img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    margin-top: 12px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+}
+
+.basketButtons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.basketButtons button {
+    padding: 6px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: #2a6496;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.basketButtons button:hover {
+    background-color: #1e4d78;
+}
