@@ -35,7 +35,7 @@ const reducer = (state, action) => {
 }
 
 function ProductList() {
-    const [basket, dispatch] = useReducer(reducer, JSON.parse(localStorage.getItem("BASKET_PRODUCTS") ?? []))
+    const [basket, dispatch] = useReducer(reducer, JSON.parse(localStorage?.getItem("BASKET_PRODUCTS") ?? '[]'))
     const [products, setProducts] = useState([])
     const [isBasketMode, setIsBaksetMode] = useState(false)
     const [totalPrice, setTotalPrice] = useState(0)
@@ -91,7 +91,7 @@ function ProductList() {
                     ))
                 ) : (
                     <>
-                        <p>Total Price: {totalPrice.toFixed(2)}</p>
+                        <p className={style.totalPrice}>Total Price: ${totalPrice.toFixed(2)}</p>
                         <div className={style.basketContainer}>
                             {basket.length === 0 ? (
                                 <div className={style.emptyBasket}>Your basket is empty</div>

@@ -1,61 +1,33 @@
 .productGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 24px;
-    padding: 24px;
-    max-width: 1400px;
-    margin: 25px;
-
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+    background-color: #f9f9f9;
 }
 
-.basketGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
-    padding: 24px;
-}
-
-.basketToggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 100;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    padding: 12px 24px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
+.basketContainer {
     display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.basketToggle:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-}
-
-.totalPrice {
-    font-size: 24px;
-    font-weight: 700;
-    color: #2d3436;
-    text-align: center;
-    margin: 20px 0;
-    padding: 16px;
-    background: #f8f9fa;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    flex-direction: column;
+    gap: 2rem;
+    padding: 3rem;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .emptyBasket {
     text-align: center;
-    font-size: 18px;
-    color: #636e72;
-    padding: 40px;
-    grid-column: 1 / -1;
+    font-size: 1.5rem;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
 }
+
+.totalPrice {
+    text-align: right;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 1rem 3rem 0 3rem;
+  }
+  
