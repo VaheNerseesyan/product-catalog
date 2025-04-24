@@ -1,9 +1,7 @@
-import { useEffect} from "react";
 import Product from "../Product/Product";
 import style from './ProductList.module.css'
 import Basket from "../Basket/Basket";
 import { useGlobalContext } from "../Context";
-
 
 function ProductList() {
     const {
